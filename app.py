@@ -32,24 +32,84 @@ st.set_page_config(
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
-:root { --ink:#17233b; --muted:#718096; --brand:#5b6cff; --line:#e8edf5; }
-html, body, [class*="css"] { font-family:'DM Sans',sans-serif; }
-.stApp { background:linear-gradient(180deg,#f7f9ff 0%,#f7f8fc 55%,#fff 100%); color:var(--ink); }
-.block-container { max-width:1250px; padding-top:2rem; padding-bottom:3rem; }
-h1,h2,h3 { font-family:'Manrope',sans-serif; letter-spacing:-.035em; color:#17233b; }
-.hero { padding:1.7rem 1.9rem; border:1px solid #e8ecf8; border-radius:24px;
-        background:linear-gradient(120deg,#fff 5%,#f0f2ff 100%); margin-bottom:1.2rem; }
-.eyebrow { color:#5b6cff; font-size:.76rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-.hero h1 { font-size:2.35rem; margin:.3rem 0; }
-.hero p { color:#66738a; margin:0; font-size:1.02rem; }
-.panel { background:#fff; border:1px solid var(--line); border-radius:18px; padding:1.1rem 1.2rem; }
-.small-muted { color:#77839a; font-size:.88rem; }
-div[data-testid="stSidebar"] { background:#fff; border-right:1px solid #e9edf5; }
-.stButton>button { border-radius:11px; font-weight:650; border:1px solid #dfe4f2; }
-.stButton>button[kind="primary"] { background:#5b6cff; border-color:#5b6cff; }
-div[data-testid="stChatMessage"] { background:#fff; border:1px solid #edf0f6; border-radius:16px; padding:.9rem; }
-div[data-testid="stFileUploader"] { background:#fff; border:1px dashed #cbd3e5; border-radius:14px; padding:.6rem; }
-hr { border-color:#e9edf5; }
+
+/* Force a consistent, readable light appearance for the whole app. */
+:root {
+  color-scheme: light;
+  --ink: #18243b;
+  --muted: #59677f;
+  --brand: #5367e8;
+  --line: #e2e8f2;
+}
+html, body, [class*="css"], [data-testid="stAppViewContainer"] {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink) !important;
+}
+.stApp {
+  background: linear-gradient(180deg, #f7f9ff 0%, #f8f9fc 58%, #ffffff 100%) !important;
+  color: var(--ink) !important;
+}
+.block-container { max-width: 1320px; padding-top: 2rem; padding-bottom: 3rem; }
+h1, h2, h3, h4 { font-family: 'Manrope', sans-serif; letter-spacing: -.025em; color: #18243b !important; }
+p, label, li, .stMarkdown { color: inherit; }
+.hero {
+  padding: 1.8rem 2rem; border: 1px solid #e5eafb; border-radius: 22px;
+  background: linear-gradient(120deg, #ffffff 5%, #eff2ff 100%); margin-bottom: 1.2rem;
+}
+.eyebrow { color: #4e60d8 !important; font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.hero h1 { font-size: 2.35rem; margin: .3rem 0; color: #18243b !important; }
+.hero p { color: #52617a !important; margin: 0; font-size: 1.02rem; }
+.panel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 1.1rem 1.2rem; }
+.small-muted, .stCaption, [data-testid="stCaptionContainer"] p { color: #59677f !important; }
+
+/* Sidebar */
+section[data-testid="stSidebar"] { background: #ffffff !important; border-right: 1px solid #e5eaf2; }
+section[data-testid="stSidebar"] * { color: #18243b; }
+section[data-testid="stSidebar"] [data-testid="stFileUploader"] {
+  background: #f7f8fc !important; border: 1px dashed #c7d0e2 !important; border-radius: 14px;
+}
+
+/* Inputs, dropdowns and text areas */
+.stTextInput input, .stTextArea textarea, .stDateInput input, .stNumberInput input,
+[data-baseweb="select"] > div, [data-baseweb="input"] > div, [data-baseweb="textarea"] {
+  background: #ffffff !important; color: #18243b !important; border-color: #cbd5e4 !important;
+}
+.stTextInput input::placeholder, .stTextArea textarea::placeholder {
+  color: #77839a !important; opacity: 1 !important;
+}
+[data-baseweb="select"] *, [data-baseweb="popover"], [data-baseweb="menu"],
+[data-baseweb="menu"] *, [role="listbox"], [role="option"] { color: #18243b !important; }
+[data-baseweb="popover"], [data-baseweb="menu"], [role="listbox"] { background: #ffffff !important; }
+
+/* Labels and help text */
+.stTextInput label, .stTextArea label, .stSelectbox label, .stSlider label,
+.stDateInput label, .stNumberInput label, .stMultiSelect label, .stFileUploader label,
+[data-testid="stWidgetLabel"] p { color: #26344d !important; font-weight: 600 !important; }
+[data-testid="stWidgetHelp"] { color: #59677f !important; }
+
+/* Buttons */
+.stButton > button, .stDownloadButton > button {
+  background: #ffffff !important; color: #26344d !important;
+  border: 1px solid #cbd5e4 !important; border-radius: 11px !important; font-weight: 650 !important;
+}
+.stButton > button:hover, .stDownloadButton > button:hover {
+  border-color: #5367e8 !important; color: #3549c7 !important;
+}
+.stButton > button[kind="primary"], .stButton > button[data-testid="baseButton-primary"] {
+  background: #5367e8 !important; color: #ffffff !important; border-color: #5367e8 !important;
+}
+.stButton > button[kind="primary"]:hover { background: #4054d3 !important; color: #ffffff !important; }
+
+/* Tabs, alerts and chat */
+button[data-baseweb="tab"] { color: #46536b !important; }
+button[data-baseweb="tab"][aria-selected="true"] { color: #3549c7 !important; }
+div[data-testid="stAlert"] { color: #24324a !important; }
+div[data-testid="stAlert"] p { color: inherit !important; }
+div[data-testid="stChatMessage"] {
+  background: #ffffff !important; border: 1px solid #e8edf5; border-radius: 16px; padding: .9rem;
+}
+div[data-testid="stFileUploader"] { background: #ffffff !important; border: 1px dashed #cbd3e5; border-radius: 14px; padding: .6rem; }
+hr { border-color: #e5eaf2 !important; }
 </style>
 """, unsafe_allow_html=True)
 
